@@ -1,0 +1,160 @@
+﻿body{
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    font-family: avant garde,arial;
+    background-color: black;
+}
+        
+span.ins{
+    font-weight: 700;
+}
+        
+div.grnhead{
+    color: black;
+    background: #E0E0E0;
+
+    font-weight: bold;
+    float: left;
+    width: 730px;
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-bottom: 4px;
+    font-size: 22px;
+}
+        
+div.inst{
+    float: left;
+    width: 220px;
+    height: 80px;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+div.inst2{
+    float: left;
+    width: 220px;
+    height: 80px;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+div.pref{
+    float: left;
+    width: 330px;
+    height: 90px;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+        
+div.pHead{
+    width: 738px;
+    padding-left: 10px;
+    padding-top: 10px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: black;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+div.clear{
+    clear: both;
+}
+        
+div.pcont{
+    width: 730px;
+    overflow: hidden;
+    border-style: 1px solid black;
+}
+
+.Chead
+{
+    width: 21px; 
+    padding-top: 3px; 
+    padding-bottom: 3px; 
+    padding-right: 5px;
+    float: right;
+}
+
+.Chead .button
+{
+    float: right; 
+    display: block; 
+    text-decoration: none;
+    color: #0000cc; 
+    background-color: #ffffff; 
+    border-bottom: 2px solid #0000cc;
+    border-right: 2px solid #0000cc; 
+    border-top: 1px solid #0000cc; 
+    border-left: 1px solid #0000cc;
+    height: 14px; 
+    font: 10px arial,sans-serif; 
+    font-weight: 700; 
+    padding-left: 2px;
+    padding-right: 2px;
+}
+        
+.Chead:link .button{
+    color: #0000cc;
+}
+
+.Chead:visited .button{
+    color: #0000cc;
+}
+
+.Chead:hover .button{
+    color: #aaaaae;
+    background-color: pink;
+}
+
+#route{
+    width: 710px; 
+    clear: both; 
+    border-right: 0px solid #000000;
+    visibility: hidden; 
+    display: none; 
+    background-color: white;
+}
+
+#firstTab
+{
+    border-left: 1px solid #999;
+    border-radius: 3px 0px 0px 0px;
+    -o-border-radius: 3px 0px 0px 0px;
+    -moz-border-radius: 3px 0px 0px 0px;
+    margin-left: 12px;
+}
+
+#lastTab
+{
+    border-radius: 0px 3px 0px 0px;
+    -moz-border-radius: 0px 3px 0px 0px;
+    -o-border-radius: 0px 3px 0px 0px;
+}
+
+#elitePreferred
+{
+    background: #E0E0E0;
+
+    
+    -moz-border-radius: 3px 3px 0px 0px;
+    -o-border-radius: 3px 3px 0px 0px;
+    border-radius: 3px 3px 0px 0px;
+    border: 1px solid black;
+    border-bottom: none;
+}
+
+#eliteTable
+{
+    border-radius: 0px 0px 3px 3px;
+    -o-border-radius: 0px 0px 3px 3px;
+    -moz-border-radius: 0px 0px 3px 3px;
+}
+
+#preferred
+{
+    border-radius: 3px 3px;
+    -moz-border-radius: 3px 3px;
+    -webkit-border-radius: 3px 3px;
+}

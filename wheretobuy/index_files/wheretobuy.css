@@ -1,0 +1,156 @@
+/* 
+    Document   : wheretobuy
+    Created on : Oct 19, 2010, 9:29:07 AM
+    Author     : Aninneman
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+ul.tabs {
+	margin: 0;
+	padding: 0;
+        margin-top: 10px;
+	float: left;
+	list-style: none;
+	height: 32px; /*--Set height of tabs--*/
+	border-bottom: 4px solid #e44f31;
+	border-left: 4px solid #e44f31;
+	width: 101%;
+}
+
+ul.tabs li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 31px; /*--Subtract 1px from the height of the unordered list--*/
+	line-height: 31px; /*--Vertically aligns the text within the tab--*/
+	border: 1px solid #999;
+	border-left: none;
+	margin-bottom: -1px; /*--Pull the list item down 1px--*/
+	overflow: hidden;
+	position: relative;
+	background-color: #191816;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#191816), to(#2b2b2b));
+	background: -moz-linear-gradient(top, #191816, #2b2b2b);
+	background: gradient(linear, 0% 0%, 0% 100%, front(#191816), to(#2b2b2b));
+}
+
+ul.tabs li a {
+	text-decoration: none;
+	color: #e44f31;
+	display: block;
+	font-size: 1.2em;
+	padding: 0 20px;
+	border: 1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
+	outline: none;
+	font-weight: bold;
+}
+
+#firstTab:hover {
+    height: 35px;
+    top: -4px;
+    border-top-right-radius: 3px 3px;
+    /*ackground: #e0e0e0;*/
+}
+
+#lastTab:hover {
+    height: 35px;
+    top: -4px;
+    border-top-left-radius: 3px 3px;
+    /*ackground: #e0e0e0;*/
+}
+
+ul.tabs li a:hover {
+	/*background: #ccc;*/
+        border-bottom: none;
+}
+
+html ul.tabs li.active { /*--Makes sure that the active tab does not listen to the hover properties--*/
+	background: #fff;
+        border: 4px solid #e44f31 !important;
+	border-bottom: 1px solid #fff !important; /*--Makes the active tab look like it's connected with its content--*/
+}
+
+html ul.tabs li.active a{
+    color: black;
+}
+
+html ul.tabs li.active a:hover{
+    background: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+.tab_container {
+	border: 4px solid #e44f31;
+	border-top: none;
+	overflow: hidden;
+	clear: both;
+	float: left; width: 730px;
+	background: #fff;
+        margin-bottom: 20px;
+}
+.tab_content {
+	padding: 10px;
+	font-size: 1.2em;
+}
+
+#footer {
+    margin:auto;
+    width: 750px !important;
+}
+
+.tooltip {
+	display:none;
+	height:300px;
+	padding:40px 30px 10px 30px;
+	font-size:11px;
+	color:#fff;
+	z-index: 90;
+	
+	background: #1a1a1a;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#707070), to(#232323)) !important;
+    background: -moz-linear-gradient(top, #707070, #232323) !important;
+    background: gradient(linear, 0% 0%, 0% 100%, front(#707070), to(#232323)) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#707070, endColorstr=#232323) !important;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#707070, endColorstr=#232323)" !important;
+    
+	border: 3px solid #ffffff;
+	border-radius: 3px 3px;
+	-moz-border-radius: 3px 3px;
+	-o-border-radius: 3px 3px;
+	box-shadow: 3px 3px 3px #1a1a1a;
+	-webkit-box-shadow: 3px 3px 3px #1a1a1a;
+	-moz-box-shadow: 3px 3px 3px #1a1a1a;
+}
+
+.tooltip img
+{
+    max-height: 300px;
+    z-index: 1000;
+}
+
+.toolLink img{
+    margin: auto;
+    display: block;
+    width: 225px;
+    height: 80px;
+    background-color:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#cccccc), to(#ffffff)) !important;
+}
+
+.linkContainer
+{
+    /*border: 2px solid black;
+    border-radius: 16px 16px;
+    -moz-border-radius: 3px 3px;
+    -o-border-radius: 3px 3px;
+    background-color: White;
+    box-shadow: 3px 3px #67676b;
+    -webkit-box-shadow: 3px 3px #67676b;
+    -moz-box-shadow: 3px 3px #67676b;
+    -o-box-shadow: 3px 3px #67676b;*/
+    
+    height: 70px;
+    width: 200px;
+    display: table-cell;
+    vertical-align: middle;
+}

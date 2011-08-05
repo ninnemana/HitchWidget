@@ -1,0 +1,592 @@
+/* 
+    Document   : configurator
+    Created on : Oct 14, 2010, 11:57:53 AM
+    Author     : Aninneman
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+
+img{
+    border: none;
+}
+
+#configurator{
+    color: #2a2b2b;
+    font-family: Verdana, Tahoma, Arial; 
+    font-size: 14pt;
+    text-align: left;
+}
+
+#configurator span{
+    text-align: left;
+}
+#configurator .hitchTab_container{
+    border: 2px outset #343434;
+    width: 75%;
+}
+
+#configurator .hitchTab_container .imageTab_content{
+    display: block;
+    padding-left: 15px;
+    text-align: center;
+}
+
+#configurator .hitchTab_container .imageTab_content img{
+    border: 2px outset #343434;
+    cursor: pointer;
+    margin: 10px;
+    width: 20%;    
+}
+
+
+#configurator .hitchTab_container .wiringTab_content{
+    display: none;
+    padding-left: 15px;
+    text-align: center;
+    overflow: auto;
+    min-height:
+}
+
+
+#configurator .hitchTab a{
+    color: white;
+    font-size: 13pt;
+    line-height: 40px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+#configurator .activeHitchTab a {
+    line-height: 50px !important;
+}
+
+#configurator .hitchTabs{
+    margin-top: 20px;
+}
+
+
+#configurator .hitchTab{
+
+    background: -moz-linear-gradient(center top , #0D0D0D, #2C2E2B) repeat scroll 0 0 transparent;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0D0D0D), to(#2C2E2B));
+    display: inline-block;
+    height: 40px;
+    margin-right: 3px;
+    text-align: center;
+    vertical-align: bottom;
+    width: 100px;
+    
+}
+
+#configurator .activeHitchTab{
+
+    background: -moz-linear-gradient(center top , #E44F31, #923A15) repeat scroll 0 0 transparent;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E44F31), to(#923A15));
+    height: 50px;    
+}
+
+#configurator .wiringContainer {
+    background: none repeat scroll 0 0 #CCCCCC;
+    border-right: 1px outset #CCCCCC;
+    float: left;
+    height: 240px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    text-align: center;
+    width: 35%;
+}
+
+#configurator .wiringContainer input img{
+    line-height: 30px;
+    height: 30px;
+}
+
+
+#configurator .wiringImage {
+    -moz-border-radius: 5px 5px 5px 5px;
+    -moz-box-shadow: 2px 2px 2px #999999;
+    background: none repeat scroll 0 0 white;
+    border: 2px solid #343434;
+    height: 125px;
+    margin: auto;
+    overflow: hidden;
+    padding: 5px;
+    text-align: center;
+    width: 80%;
+}
+#configurator .wiringImage img {
+    max-height: 125px;
+}
+#configurator #wiringInfo {
+    float: left;
+    margin-left: 15px;
+    padding-top: 20px;
+    width: 60%;
+}
+
+#clear {
+    
+    text-align: left;
+    font-size: 14pt;
+    
+    text-decoration: none;
+
+    width: 130px;
+    line-height: 200%;
+    margin: 2px; 
+    padding-bottom: 1px;
+
+
+    border-right: 2px solid #9C9A8F;
+    border-bottom: 2px solid #9C9A8F;
+    border-top: 2px solid #dfdfdf;
+    border-left: 2px solid #dfdfdf;
+
+    background: #999;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#ccc));
+    background: -moz-linear-gradient(top, #999, #ccc);
+    /* For Internet Explorer 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#999999, endColorstr=#CCCCCC);
+    /* For Internet Explorer 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#999999, endColorstr=#CCCCCC)";
+    
+    padding: 6px;
+    border: 1px solid #white;
+    border-radius: 10px 10px;
+    -moz-border-radius: 10px 10px;
+    -o-border-radius: 10px 10px;
+    color: white;
+
+
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #232323;
+    margin-right: 20px;
+
+    
+}
+
+#clear:hover{
+    text-decoration: none;
+}
+
+.custom-select select{
+    background-color: #515050;
+    color: white;
+    border-radius: 4px 4px;
+    -moz-border-radius: 4px 4px;
+    -o-border-radius: 4px 4px;
+    height: 60px;
+    width: 400px;
+    font-size: 14pt;
+}
+
+option{
+    padding: 1em;
+    color: white;
+}
+
+option:last{
+    border-radius: 0px 0px 4px 4px;
+    -moz-border-radius: 0px 0px 4px 4px;
+    -o-border-radius: 0px 0px 4px 4px;
+}
+
+
+
+
+#vehicleStr{
+    margin: 10px;
+    font-size: 16pt;
+    float:left;
+}
+
+#searchStr{
+    display: none;
+}
+
+select{
+    display:none;
+}
+
+#lookup_submit{
+    display: none;
+    padding-left: 8px;
+    padding-right: 8px;
+    height: 40px;
+    font-size: 14pt;
+    background-color: #ff581c;
+
+}
+
+.hitch{
+    padding-bottom:25px;
+    border-bottom: 1px solid black;
+    font-size: 12pt;
+}
+
+#logo{
+    float:right;
+    width: 150px;
+    height: 90%;
+}
+
+#logo img{
+    width: 150px;
+    height: 40px;
+    margin: 5px 0px;
+}
+
+.curtLogo{
+    display:inline;
+    position: relative;
+    top: 2px;
+}
+
+.shortDesc_link{
+    text-decoration: none;
+    color: #515150;
+    margin-bottom: 5px;
+    font-size: 14pt;
+}
+
+.shortDesc_link:hover{
+    text-decoration: underline;
+}
+
+.hitchTitle{
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+.hitchSpecs img{
+    vertical-align: bottom;
+    width: 25px;
+    font-size: 11pt;
+}
+
+.hitchSpecs {
+    float: left;
+    margin-right: 15px;
+    max-width: 48%;
+}
+
+.prodImg{
+    float:left;
+    width:15%;
+    margin-right:15px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.prodImg img{
+    width:95%;
+}
+
+.prodImg span{
+    display:block;
+    color: black;
+    font-weight: bold;
+    font-size: 10pt;
+    text-decoration: none;
+}
+
+.prodImg span:hover{
+    text-decoration: underline;
+}
+
+.longDesc{
+    float:left;
+    width:60%;
+    margin-top:0px;
+    margin-right: 10px; 
+}
+
+.longDesc .grossLoad{
+    background: -moz-linear-gradient(center top , #DDDDDD, #CECECE) repeat scroll 0 0 transparent;
+    border: 2px outset #CCCCCC;
+    clear: right;
+    float: right;
+    max-width: 47%;}
+
+.longDesc .grossLoad table {
+    font-size: 11pt;
+}
+
+
+
+.longDesc .grossLoad table caption{
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.longDesc p{
+    margin-bottom: 0px;
+}
+
+.prodLinks{
+    min-height: 45px;
+    float:left;
+    width:15%;
+    border-left:1px solid #ccc;
+    padding-left:15px;
+}
+
+.prodLinks a{
+    vertical-align: top;
+    color: #515050;
+    text-decoration: none;
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.prodLinks a img{
+    vertical-align: bottom;
+    text-decoration: none;
+}
+
+.prodLinks a span:hover{
+    text-decoration: underline;
+}
+
+.prodLinks select{
+   width: 100px;
+}
+
+#resultBox_outline{
+    border: 1px solid #999;
+    border-radius: 10px 10px;
+    -moz-border-radius: 10px 10px;
+    -o-border-radius: 10px 10px;
+    margin: 10px 0px;
+}
+
+#resultBox{
+    background: #999;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#ccc));
+    background: -moz-linear-gradient(top, #999, #ccc);
+    /* For Internet Explorer 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#999999, endColorstr=#CCCCCC);
+    /* For Internet Explorer 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#999999, endColorstr=#CCCCCC)";
+    padding: 5px;
+    border: 1px solid #white;
+    border-radius: 10px 10px;
+    -moz-border-radius: 10px 10px;
+    -o-border-radius: 10px 10px;
+    color: white;
+    min-height: 60px;
+    max-height: 150px;
+}
+
+.trademark{
+    vertical-align: top;
+    line-height: 1.5em;
+    color: #e44f31;
+}
+
+.button{
+    background: #999;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#ccc));
+    background: -moz-linear-gradient(top, #999, #ccc);
+    /* For Internet Explorer 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#999999, endColorstr=#CCCCCC);
+    /* For Internet Explorer 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#999999, endColorstr=#CCCCCC)";
+    
+    padding: 5px;
+    border: 1px solid #white;
+    border-radius: 10px 10px;
+    -moz-border-radius: 10px 10px;
+    -o-border-radius: 10px 10px;
+    color: white;
+}
+
+.button:hover{
+    text-decoration: underline;
+}
+
+.button_outer{
+    border: 1px solid #999;
+    border-radius: 10px 10px;
+    -moz-border-radius: 10px 10px;
+    -o-border-radius: 10px 10px;
+    margin: 5px 0px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.buynow{
+    width: 40%;
+}
+
+.more{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.more:hover{
+    text-decoration: underline;
+}
+
+/******* Styling for the pop-up with hitch specific details ****/
+
+.hitchDetails{
+    background-color: white;
+    height: 100%;
+    width: 100%;
+}
+
+.title{
+    font-size: 16pt;
+    font-weight: bold;
+    display: block;
+    width: 98%;
+    border-bottom: 1px solid #ccc;
+    margin:auto;
+    margin-top: 15px;
+}
+
+.close{
+    float: right;
+    position: relative;
+    top: -35px;
+    margin-right: 15px;
+}
+
+.close img{
+    width: 30px;
+    cursor: pointer;
+}
+
+#imageContainer{
+    width: 25%;
+    height: 260px;
+    margin-left: 15px;
+    margin-top: 15px;
+    text-align:center;
+    float:left;
+}
+
+#mainImage{
+    border: 3px solid black;
+    border-radius: 5px 5px;
+    -moz-border-radius: 5px 5px;
+    -o-border-radius: 5px 5px;
+    box-shadow: 3px 3px 3px #999;
+    -webkit-box-shadow: 3px 3px 3px #999;
+    -moz-box-shadow: 3px 3px 3px #999;
+    -o-box-shadow: 3px 3px 3px #999;
+    height: 205px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+#mainImage img{
+    height: 95%;
+    width: 95%;
+}
+
+.mini{
+    width: 55px;
+    height: 55px;
+    margin-right: 4px;
+    border: 2px solid black;
+    border-radius: 5px 5px;
+    -moz-border-radius: 5px 5px;
+    -o-border-radius: 5px 5px;
+    box-shadow: 3px 3px 3px #999;
+    -webkit-box-shadow: 3px 3px 3px #999;
+    -moz-box-shadow: 3px 3px 3px #999;
+    -o-box-shadow: 3px 3px 3px #999;
+    cursor: pointer;
+}
+
+.detailsLongDesc{
+    float:left;
+    width: 70%;
+    margin-left: 25px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    position: relative;
+    top: -18px;
+}
+
+.prodDetails{
+    float:left;
+    width: 70%;
+    margin-left: 25px;
+    border-collapse: collapse;
+}
+
+.prodDetails table{
+    border-collapse: collapse;
+    width: 100% !important;
+}
+
+.prodDetails table td{
+    border: 2px solid black;
+    margin-bottom: 2px;
+}
+
+.prodDetails table .label{
+    width: 25%;
+    background-color: #ccc;
+    font-weight: bold;
+    padding-left: 10px;
+    height: 30px;
+    border-right: none;
+}
+
+.prodDetails table .val{
+    padding-left: 10px;
+    border-left: none;
+}
+
+.prodDetails table tr .noteHeader{
+    text-align: center;
+    border: 2px solid black;
+}
+
+.prodDetails table tr .notes{
+    border: 2px solid black;
+}
+
+.prodDetails .disclaimer{
+    margin-top: 5px;
+}
+
+.installSheet{
+    color: black;
+    text-decoration: none;
+}
+
+.installSheet span:hover{
+    text-decoration: underline;
+}
+
+.installSheet img{
+    vertical-align: bottom;
+}
+
+#facebox .body{
+    border: 4px solid black;
+}
+
+.hold {
+	width: 1px;
+	height: 22px;
+	float: left;
+}
+#hitchResults {
+     width: 100%;
+}
