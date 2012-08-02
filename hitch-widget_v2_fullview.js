@@ -1,3 +1,12 @@
+/*************************************
+*
+*   This version is currently under development. It will eventually allow
+*   for the display of mount, year, make, model, and style simultaneously.
+*
+*   Alex Ninneman
+*
+*************************************/
+
 var REQUIRED_JQUERY = 1.6;
 var STORAGE = true;
 var USER_AGENT = navigator.userAgent.toLowerCase();

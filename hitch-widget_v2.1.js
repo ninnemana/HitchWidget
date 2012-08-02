@@ -1,3 +1,13 @@
+/*************************************
+*
+*   This version is not maintained and will more than likely be
+*   removed once I've made sure noone is using it.
+*
+*   Alex Ninneman
+*
+*************************************/
+
+
 var REQUIRED_JQUERY = 1.6;
 var STORAGE = true;
 var USER_AGENT = navigator.userAgent.toLowerCase();
