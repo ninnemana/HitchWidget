@@ -854,6 +854,8 @@ function loadVehicleRecord(response){
     }
 }
 
+
+
 function loadCheckout(price,title, custPartID, partID){
     var checkoutHTML = '';
     switch(checkout){
@@ -896,6 +898,52 @@ function loadCheckout(price,title, custPartID, partID){
             checkoutHTML += '<input type="submit" value="Add to Cart" />';
             checkoutHTML += '</form>';
 
+            break;
+
+        case 'fasttrackracks':
+                checkoutHTML += '<form action="http://www.fasttrackracks.com/store/addtocart.aspx" method="post">';
+                    checkoutHTML += '<div style="padding-top:15px"><span class="price accPrice">'+price+'</span>';
+                        checkoutHTML += '<label>Qty</label>';
+                        checkoutHTML += '<select name="qty" style="min-width:40px;display:inline">';
+                            checkoutHTML += '<option>1</option>';
+                            checkoutHTML += '<option>2</option>';
+                            checkoutHTML += '<option>3</option>';
+                            checkoutHTML += '<option>4</option>';
+                            checkoutHTML += '<option>5</option>';
+                checkoutHTML += '</select>';
+                    checkoutHTML += '</div>';
+                    checkoutHTML += '<input type="hidden" name="return" value="'+window.location+'" />';
+                    checkoutHTML += '<input type="hidden" name="imageurl" value="https://www.curtmfg.com/masterlibrary/'+partID+'/images/'+partID+'_300x225_a.jpg" />';
+                    checkoutHTML += '<input type="hidden" name="ItemNbr" value="'+title+'" />';
+                    checkoutHTML += '<input type="hidden" name="product" value="'+vehicleStr + ' ' + title +'" />';
+                    checkoutHTML += '<input type="hidden" name="notax" value="null" />';
+                    checkoutHTML += '<input type="hidden" name="price" value="'+price+'" />';
+                    checkoutHTML += '<input type="hidden" name="weight" value="null" />';
+                    checkoutHTML += '<input type="submit" name="submit" class="fasttrackracks_button" value="Buy Now" />';
+                    checkoutHTML += '</form>';
+            break;
+
+        case 'stowaway2':
+                checkoutHTML += '<form action="http://www.stowaway2.com/store/addtocart.aspx" method="post">';
+                    checkoutHTML += '<div style="padding-top:15px"><span class="price accPrice">'+price+'</span>';
+                        checkoutHTML += '<label>Qty</label>';
+                        checkoutHTML += '<select name="qty" style="min-width:40px;display:inline">';
+                            checkoutHTML += '<option>1</option>';
+                            checkoutHTML += '<option>2</option>';
+                            checkoutHTML += '<option>3</option>';
+                            checkoutHTML += '<option>4</option>';
+                            checkoutHTML += '<option>5</option>';
+                checkoutHTML += '</select>';
+                    checkoutHTML += '</div>';
+                    checkoutHTML += '<input type="hidden" name="return" value="'+window.location+'" />';
+                    checkoutHTML += '<input type="hidden" name="imageurl" value="https://www.curtmfg.com/masterlibrary/'+partID+'/images/'+partID+'_300x225_a.jpg" />';
+                    checkoutHTML += '<input type="hidden" name="ItemNbr" value="'+title+'" />';
+                    checkoutHTML += '<input type="hidden" name="product" value="'+vehicleStr + ' ' + title +'" />';
+                    checkoutHTML += '<input type="hidden" name="notax" value="null" />';
+                    checkoutHTML += '<input type="hidden" name="price" value="'+price+'" />';
+                    checkoutHTML += '<input type="hidden" name="weight" value="null" />';
+                    checkoutHTML += '<input type="submit" name="submit" class="fasttrackracks_button" value="Buy Now" />';
+                    checkoutHTML += '</form>';
             break;
         case 'custom':
             if(cart_link.length > 0){
