@@ -550,7 +550,7 @@ function loadParts(parts){
         
         // Step through each part and populate an array of the unique product classes
         jQuery.each(parts,function(i,part){
-            if(part.shortDesc.toUpperCase().indexOf('T-CONNECTOR',0) == -1){
+            if(part.shortDesc.toUpperCase().indexOf('T-CONNECTOR',0) == -1 || part.shortDesc.toUpperCase().indexOf('WIRING') == -1){
                 if(jQuery.inArray(jQuery.trim(part.pClass),class_array) == -1){
                     if(jQuery.trim(part.pClass).length > 0){
                         class_array.push(jQuery.trim(part.pClass));
@@ -596,7 +596,7 @@ function loadParts(parts){
                 resultHTML += '</div>';
                 resultHTML += '<div style="clear:both"></div>';
                 jQuery.each(part_array[pClass],function(i,part){
-                    if(part.shortDesc.toUpperCase().indexOf('T-CONNECTOR',0) == -1){
+                    if(part.shortDesc.toUpperCase().indexOf('T-CONNECTOR',0) == -1 || part.shortDesc.toUpperCase().indexOf('WIRING',0) == -1){
                         resultHTML += displayPart(part);
                     }
                 });
