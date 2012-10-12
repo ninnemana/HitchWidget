@@ -940,6 +940,12 @@ function loadCheckout(price,title, custPartID, partID){
                     checkoutHTML += '<input type="submit" name="submit" class="fasttrackracks_button" value="Buy Now" />';
                     checkoutHTML += '</form>';
             break;
+        case 'trailerhitches2go':
+            checkoutHTML += '<button type="button" title="Add to Cart" class="button btn-cart" onclick="setLocation(';
+            checkoutHTML += "'http://www.trailerhitches2go.com/mag/index.php/checkout/cart/add/uenc/aHR0cDovL3d3dy50cmFpbGVyaGl0Y2hlczJnby5jb20vbWFnL2VsZWN0cmljYWwvdC1jb25uZWN0b3JzLmh0bWw,/product/" + custPartID;
+            checkoutHTML += '/\')"><span><span>Add to Cart</span></span>';
+            checkoutHTML += '</button>';
+            break;
         case 'custom':
             if(cart_link.length > 0){
                 checkoutHTML += '<span class="price">'+price+'</span><br />';
