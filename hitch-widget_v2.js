@@ -20,6 +20,7 @@ var STORAGE = true,
     facebox = true,
     merchant_id = 0,
     customer_id = 0,
+    customer_email = '',
     mount = '',
     year = '',
     make = '',
@@ -354,6 +355,11 @@ function loadConfigurator(){
         // Get the customer id
         if(jQuery('#configurator').attr('customer_id')){
             customer_id = jQuery('#configurator').attr('customer_id');
+        }
+
+        // Get the customer name
+        if(jQuery('#configurator').attr('customer_email')){
+            customer_id = jQuery('#configurator').attr('customer_email');
         }
         
         // Get the path to the users shopping cart
@@ -862,6 +868,33 @@ function loadCheckout(price,title, custPartID, partID){
                 checkoutHTML += '<input type="hidden" class="product-price" value="'+price+'">';
                 checkoutHTML += '<div class="googlecart-add-button" tabindex="0" role="button" title="Add to cart"></div>';
                 checkoutHTML += '</div>';
+            }
+            break;
+
+        // Load Paypal
+        case 'paypal':
+            if(merchant_id){
+                checkoutHTML += '<form target="_blank" action="https://www.paypal.com/cgi-bin/webscr" method="post">';
+                checkoutHTML += '<div style="padding-top: 15px"><span class="price accPrice">'+ price +'</span><br />';
+                checkoutHTML += '<label>Qty</label>';
+                checkoutHTML += '<select name="quantity" style="min-width:40px;display:inline">';
+                checkoutHTML += '<option>1</option>';
+                checkoutHTML += '<option>2</option>';
+                checkoutHTML += '<option>3</option>';
+                checkoutHTML += '<option>4</option>';
+                checkoutHTML += '<option>5</option>';
+                checkoutHTML += '</select>';
+                checkoutHTML += '</div>';
+                checkoutHTML += '<input type="hidden" name="item_number" value="'+title.replace('""',' inch').replace('"','')+'" />';
+                checkoutHTML += '<input type="hidden" name="cmd" value="_xclick" />';
+                checkoutHTML += '<input type="hidden" name="no_note" value="1" />';
+                checkoutHTML += '<input type="hidden" name="business" value="' + customer_email + '" />';
+                checkoutHTML += '<input type="hidden" name="currency_code" value="USD" />';
+                checkoutHTML += '<input type="hidden" name="return" value="'+window.location.href+'" />';
+                checkoutHTML += '<input type="hidden" name="item_name" value="'+title.replace('""',' inch').replace('"','')+'" />';
+                checkoutHTML += '<input type="hidden" name="amount" value="'+ price +'" />';
+                checkoutHTML += '<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0" align="top" alt="Check out with PayPal" />';
+                checkoutHTML += '</form>';
             }
             break;
         case 'american_rv':
