@@ -16,18 +16,184 @@ function(app, Router) {
   // root folder to '/' by default.  Change in app.js.
   Backbone.history.start({ pushState: true, root: app.root });
 
-  var Item = Backbone.Model.extend({
+  var Lookup = Backbone.Model.extend({
     defaults: {
-      part1: 'hello',
-      part2: 'world'
+      year: 0,
+      make: '',
+      model: '',
+      submodel: ''
+    },
+    get: function(arg1,callback){
+      switch(arg1.toLowerCase()){
+        case 'year':
+          this.getMakes(function(makes){
+          });
+          break;
+        case 'make':
+          this.getModels(function(models){
+          });
+          break;
+        case 'model':
+          this.getSubModels(function(submodels){
+          });
+          break;
+        default:
+          this.getYears(function(years){
+          });
+      }
+    },
+    getOptions: function(arg1,callback){
+      var html = '';
+      switch(arg1.toLowerCase()){
+        case 'year':
+          this.getMakes(function(makes){
+            html += html += '<option value="">- Select Make -</option>';
+            for(var i = 0; i < makes.length; i++){
+              html += '<option value="' + makes[i].Make + '"">' + makes[i].Make + '</option>';  
+            }
+            $('.curt-lookup').html(html);
+          });
+          break;
+        case 'make':
+          this.getModels(function(models){
+            html += html += '<option value="">- Select Model -</option>';
+            for(var i = 0; i < models.length; i++){
+              html += '<option value="' + models[i].Model + '"">' + models[i].Model + '</option>';  
+            }
+            $('.curt-lookup').html(html);
+          });
+          break;
+        case 'model':
+          this.getSubModels(function(submodels){
+            html += html += '<option value="">- Select SubModel -</option>';
+            for(var i = 0; i < submodels.length; i++){
+              html += '<option value="' + submodels[i].Submodel + '"">' + submodels[i].Submodel + '</option>';  
+            }
+            $('.curt-lookup').html(html);
+          });
+          break;
+        default:
+          this.getYears(function(years){
+            html += html += '<option value="">- Select Year -</option>';
+            for(var i = 0; i < years.length; i++){
+              html += '<option value="' + years[i].Year + '"">' + years[i].Year + '</option>';  
+            }
+            $('.curt-lookup').append(html);
+          });
+      }
+    },
+    getYears: function(callback){
+      $.getJSON('https://api.curtmfg.com/v3/vehicle/years',{'key':'8aee0620-412e-47fc-900a-947820ea1c1d'},function(resp){
+        
+        var data = resp;
+        data.length = resp.length;
+        var years = [];
+        years = Array.prototype.slice.call(data);
+        callback(years);
+      });
+    },
+    getMakes: function(callback){
+      $.getJSON('https://api.curtmfg.com/v3/vehicle/makes/' + this.defaults.year,{'key':'8aee0620-412e-47fc-900a-947820ea1c1d'},function(resp){
+        
+        var data = resp;
+        data.length = resp.length;
+        var years = [];
+        years = Array.prototype.slice.call(data);
+        callback(years);
+      });
+    },
+    getModels: function(callback){
+      $.getJSON('https://api.curtmfg.com/v3/vehicle/models/' + this.defaults.year + '/' + this.defaults.make,{'key':'8aee0620-412e-47fc-900a-947820ea1c1d'},function(resp){
+        
+        var data = resp;
+        data.length = resp.length;
+        var years = [];
+        years = Array.prototype.slice.call(data);
+        callback(years);
+      });
+    },
+    getSubModels: function(callback){
+      $.getJSON('https://api.curtmfg.com/v3/vehicle/submodels/' + this.defaults.year + '/' + this.defaults.make + '/' + this.defaults.model ,{'key':'8aee0620-412e-47fc-900a-947820ea1c1d'},function(resp){
+        
+        var data = resp;
+        data.length = resp.length;
+        var years = [];
+        years = Array.prototype.slice.call(data);
+        callback(years);
+      });
+    },
+    vehicleString: function(){
+      var str = '';
+      if(this.defaults.year !== undefined && this.defaults.year > 0){
+        str += this.defaults.year;
+      }
+      if(this.defaults.make !== undefined && this.defaults.make.length > 0){
+        str += ' ' + this.defaults.make;
+      }
+      if(this.defaults.model !== undefined && this.defaults.model.length > 0){
+        str += ' ' + this.defaults.model;
+      }
+      if(this.defaults.submodel !== undefined && this.defaults.submodel.length > 0){
+        str += ' ' + this.defaults.submodel;
+      }
+      return str;
+    },
+    currentStatus: function(){
+      if(this.defaults.year === undefined || this.defaults.year === 0){
+        return '';
+      }
+      if(this.defaults.make === undefined || this.defaults.make.length === 0){
+        return 'year';
+      }
+      if(this.defaults.model === undefined || this.defaults.model.length === 0){
+        return 'make';
+      }
+
+      if(this.defaults.submodel === undefined || this.defaults.submodel.length === 0){
+        return 'model';
+      }
     }
   });
 
-  var List = Backbone.Collection.extend({
-    model: Item
-  });
+  var LookupView = Backbone.View.extend({
+    el: $('.widget-container'),
+    events: {
+      'change select.curt-lookup':'stateChange'
+    },
+    initialize: function(){
+      _.bindAll(this,'render','years','makes','models','submodels');
 
-  var ListView = Backbone.View.extend({
+      this.lookup = new Lookup();
+      this.render();
+    },
+
+    render: function(){
+      var self = this;
+      var html = '<span class="curt-vehiclestring">' + this.model.vehicleString() + '</span>';
+      html += '<select class="curt-lookup">';
+      this.model.getOptions(this.model.currentStatus());
+      html += '</select>';
+      $(this.el).append(html); 
+    },
+
+    stateChange: function(ev){
+      var status = this.model.currentStatus();
+      console.log('Status' + status);
+      if(this.model.defaults.hasOwnProperty(status)){
+        this.model.defaults[status] = $(ev.currentTarget).val();
+        this.model.getOptions(status);
+      }else{
+        this.model.defaults.year = $(ev.currentTarget).val();
+        this.model.getOptions('year');
+      }
+    }
+
+  });
+  var lookup = new Lookup();
+  var lookupView = new LookupView({model:lookup});
+
+
+  /*var ListView = Backbone.View.extend({
     el: $('body'),
     events: {
       'click button#add': 'addItem'
@@ -64,10 +230,11 @@ function(app, Router) {
     appendItem: function(item){
       $('ul', this.el).append("<li>"+item.get('part1')+" "+item.get('part2')+"</li>");
     }
-  });
+  });*/
 
 
-  var listView = new ListView();
+  //var listView = new ListView();
+  
 
   // All navigation that is relative should be passed through the navigate
   // method, to be processed by the router. If the link has a `data-bypass`
@@ -90,3 +257,7 @@ function(app, Router) {
   });
 
 });
+
+String.prototype.toProperCase = function () {
+    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
