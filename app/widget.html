@@ -10,30 +10,16 @@
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width"/>
 
-        <link rel="stylesheet" href="styles/h5bp.css">
-        <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap.min.css">
-        <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap-responsive.min.css">
-        <link rel="stylesheet" href="styles/index.css"/>
+        <link rel="stylesheet" href="http://labs.curtmfg.com/widget_v3/styles/h5bp.css">
+        <link rel="stylesheet" href="http://labs.curtmfg.com/widget_v3/components/bootstrap.css/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://labs.curtmfg.com/widget_v3/components/bootstrap.css/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="http://labs.curtmfg.com/widget_v3/styles/index.css"/>
     </head>
     <body>
 
     <!-- Main container. -->
-    <div role="main" id="main" class="container">
-        <div class="hero-unit">
-            <h1>Cheerio!</h1>
-            
-            <p>This is going to be the initial development of the CURT Hitch Widget v3.0</p>
-            <p>Some of the innerds of this project are outlined below. We will be using the ACES compliant lookup that is standard of the <a href="https://api.curtmfg.com/v3">CURT API v3.0</a></p>
-            <ul>
-                <li>HTML5 Boilerplate</li>
-                <li>jQuery</li>
-                <li>Twitter Bootstrap</li>
-                <li>Backbone.js</li>
-                <li>Backbone LayoutManager</li>
-                <li>Require.js</li>
-                <li>Mocha</li>
-            </ul>
-        </div>
+    <div role="main" id="main" class="container widget-container">
+        
     </div>
 
         <!--[if lt IE 7]>
@@ -41,6 +27,10 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
+
+        <!-- build:js scripts/amd-app.js -->
+        <script data-main="scripts/config" src="scripts/libs/require.js"></script>
+        <!-- endbuild -->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
