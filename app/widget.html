@@ -10,22 +10,67 @@
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width"/>
 
+        <link rel="stylesheet" href="styles/prettify.css">
         <link rel="stylesheet" href="styles/index.css"/>
     </head>
-    <body>
-
-    <!-- Main container. -->
-    <div role="main" id="main" class="container widget-container">
-        
-    </div>
-
+    <body role="widget">
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
+        
+        <div class="navbar navbar-fixed-top navbar-inverse">
+            <div class="navbar-inner">
+            <div class="container">
 
-        <!-- Add your site or application content here -->
+              <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </a>
+
+              <!-- Be sure to leave the brand out there if you want it shown -->
+              <a class="brand" href="#">CURT Hitch Widget v3.0</a>
+
+              <!-- Everything you want hidden at 940px or less, place within here -->
+              <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Basic</a></li>
+                </ul>
+              </div>
+
+            </div>
+            </div>
+        </div>
+
+        <div role="main" id="main">
+            <div class="hero-unit">
+                <h2>Hitch Widget Example</h2>
+                
+                <div class="well">
+                    <p>The default implementation is fairly basic</p>
+                    <div class="prettyprint linenums lang-html">
+                        <ol class="linenums">
+                            <li class="L0">&lt;div role="main" id="main" class="widget-container"&gt;&lt;/div&gt;</li>
+                            <li class="L1">&lt;script src="https://labs.curtmfg.com/widget_v3/script.js"&gt;&lt;/script&gt;</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main container. -->
+            <div data-key="8aee0620-412e-47fc-900a-947820ea1c1d" data-checkout="none" data-buy="true" data-css="main" data-display="replace" class="widget-container"></div>
+        </div>
+        <footer>
+            <div class="copy">
+                <span>Copyright &copy; 2012 CURT Manufacturing, LLC</span>
+                <span>Developed by: <a href="mailto:websupport@curtmfg.com">Alex Ninneman</a></span>    
+            </div>
+            <img src="images/curt.png" alt="CURT Manufacturing, LLC">
+        </footer>
 
         <!-- build:js scripts/amd-app.js -->
+        <script type="text/javascript" src="scripts/prettify.js"></script>
         <script data-main="scripts/config" src="scripts/libs/require.js"></script>
         <!-- endbuild -->
 

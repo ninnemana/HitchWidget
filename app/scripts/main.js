@@ -1,12 +1,20 @@
+/*global $:false */
+/*global Backbone:false */
+
+'use strict';
 require([
   // Application.
-  "app",
+  'app',
 
   // Main Router.
-  "router"
+  'router'
 ],
 
 function(app, Router) {
+
+  var container = $('.widget-container');
+  var key = $(container).data('key');
+  console.log(key);
 
   // Define your master router on the application namespace and trigger all
   // navigation from this instance.
@@ -19,7 +27,7 @@ function(app, Router) {
   // All navigation that is relative should be passed through the navigate
   // method, to be processed by the router. If the link has a `data-bypass`
   // attribute, bypass the delegation completely.
-  $(document).on("click", "a:not([data-bypass])", function(evt) {
+  $(document).on('click', 'a:not([data-bypass])', function(evt) {
     // Get the absolute anchor href.
     var href = $(this).attr("href");
 
@@ -48,29 +56,33 @@ function(app, Router) {
       switch(arg1.toLowerCase()){
         case 'year':
           this.getMakes(function(makes){
+            callback(makes);
           });
           break;
         case 'make':
           this.getModels(function(models){
+            callback(models);
           });
           break;
         case 'model':
           this.getSubModels(function(submodels){
+            callback(submodels);
           });
           break;
         default:
           this.getYears(function(years){
+            callback(years);
           });
       }
     },
-    getOptions: function(arg1,callback){
+    getOptions: function(arg1){
       var html = '';
       switch(arg1.toLowerCase()){
         case 'year':
           this.getMakes(function(makes){
             html += html += '<option value="">- Select Make -</option>';
             for(var i = 0; i < makes.length; i++){
-              html += '<option value="' + makes[i].Make + '"">' + makes[i].Make + '</option>';  
+              html += '<option value="' + makes[i].Make + '"">' + makes[i].Make + '</option>';
             }
             $('.curt-lookup').html(html);
           });
@@ -79,7 +91,7 @@ function(app, Router) {
           this.getModels(function(models){
             html += html += '<option value="">- Select Model -</option>';
             for(var i = 0; i < models.length; i++){
-              html += '<option value="' + models[i].Model + '"">' + models[i].Model + '</option>';  
+              html += '<option value="' + models[i].Model + '"">' + models[i].Model + '</option>';
             }
             $('.curt-lookup').html(html);
           });
@@ -88,7 +100,7 @@ function(app, Router) {
           this.getSubModels(function(submodels){
             html += html += '<option value="">- Select SubModel -</option>';
             for(var i = 0; i < submodels.length; i++){
-              html += '<option value="' + submodels[i].Submodel + '"">' + submodels[i].Submodel + '</option>';  
+              html += '<option value="' + submodels[i].Submodel + '"">' + submodels[i].Submodel + '</option>';
             }
             $('.curt-lookup').html(html);
           });
@@ -97,7 +109,7 @@ function(app, Router) {
           this.getYears(function(years){
             html += html += '<option value="">- Select Year -</option>';
             for(var i = 0; i < years.length; i++){
-              html += '<option value="' + years[i].Year + '"">' + years[i].Year + '</option>';  
+              html += '<option value="' + years[i].Year + '"">' + years[i].Year + '</option>';
             }
             $('.curt-lookup').append(html);
           });
@@ -189,24 +201,38 @@ function(app, Router) {
     },
 
     render: function(){
-      var self = this;
       var html = '<span class="curt-vehiclestring">' + this.model.vehicleString() + '</span>';
-      html += '<select class="curt-lookup">';
+      html += '<select class="curt-lookup" data-state="year">';
       this.model.getOptions(this.model.currentStatus());
       html += '</select>';
-      $(this.el).append(html); 
+      $(this.el).append(html);
     },
 
     stateChange: function(ev){
-      var status = this.model.currentStatus();
-      console.log('Status' + status);
-      if(this.model.defaults.hasOwnProperty(status)){
-        this.model.defaults[status] = $(ev.currentTarget).val();
-        this.model.getOptions(status);
-      }else{
-        this.model.defaults.year = $(ev.currentTarget).val();
-        this.model.getOptions('year');
+      var status = $(ev.currentTarget).data('state');
+      switch(status.toLowerCase()){
+        case 'year':
+          $(ev.currentTarget).data('state','make');
+          break;
+        case 'make':
+        $(ev.currentTarget).data('state','model');
+          break;
+        case 'model':
+        $(ev.currentTarget).data('state','submodel');
+          break;
+        case 'submodel':
+          $(ev.currentTarget).data('state','config');
+          break;
+        default:
+
       }
+      
+      this.model.defaults[status] = $(ev.currentTarget).val();
+      this.model.getOptions(status);
+
+      $('.curt-vehiclestring').html(this.model.vehicleString());
+      
+      
     }
 
   });

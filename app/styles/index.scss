@@ -1,10 +1,66 @@
 @import "compass_twitter_bootstrap";
 @import "h5bp.css";
 
-body {
-	background: #fafafa;
+
+// Demo page styles
+html {
+	background: url("../images/light_wool.png");
+
+	body{
+		padding-top: 25px;
+		max-width: 1020px;
+		margin:auto;
+	}
+
+	body[role=widget]{
+		padding-top: 0;
+		background: #F7F6F5;
+
+		div[role=main] {
+			background: white;
+			box-shadow: 3px 3px 3px #f1f1f1;
+			padding: 100px 10px;
+			max-width: 1000px;
+			margin:auto;
+			border-radius: 0 0 3px 3px;
+		}
+
+		footer{
+			width: 1000px;
+			padding: 10px;
+			margin:auto;
+			min-height: 50px;
+
+			.copy{
+				float:left;
+				span{
+					color: #aeaeae;
+					font-size: 10px;
+					display:block;
+				}
+			}
+
+			img{
+				float:right;
+				width: 140px;
+			}
+		}
+	}
+}
+// End demo styles
+
+
+// Hitch Widget styling
+.widget-container{
+	margin:10px 10px 10px 40px;
+
+	.curt-vehiclestring{
+		display:block;
+		font-size:16px;
+		color: #aeaeae;
+		margin-bottom: 5px;
+	}
 }
 
-.hero-unit{
-	box-shadow: 2px 2px 2px #f1f1f1;
-}
+
+// End Hitch Widget styles
