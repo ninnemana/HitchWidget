@@ -6,13 +6,13 @@ require.config({
 
   paths: {
     // JavaScript folders.
-    libs: "http://labs.curtmfg.com/widget_v3/scripts/libs",
-    plugins: "http://labs.curtmfg.com/widget_v3/scripts/plugins",
+    libs: "../scripts/libs",
+    plugins: "../scripts/plugins",
 
     // Libraries.
-    jquery: "http://labs.curtmfg.com/widget_v3/scripts/libs/jquery",
-    lodash: "http://labs.curtmfg.com/widget_v3/scripts/libs/lodash",
-    backbone: "http://labs.curtmfg.com/widget_v3/scripts/libs/backbone"
+    jquery: "../scripts/libs/jquery",
+    lodash: "../scripts/libs/lodash",
+    backbone: "../scripts/libs/backbone"
   },
 
   shim: {
