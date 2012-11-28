@@ -359,7 +359,7 @@ function loadConfigurator(){
 
         // Get the customer name
         if(jQuery('#configurator').attr('customer_email')){
-            customer_id = jQuery('#configurator').attr('customer_email');
+            customer_email = jQuery('#configurator').attr('customer_email');
         }
         
         // Get the path to the users shopping cart
