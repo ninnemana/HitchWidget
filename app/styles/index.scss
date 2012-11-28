@@ -1,5 +1,4 @@
-@import "compass_twitter_bootstrap";
-@import "h5bp.css";
+@import "base";
 
 
 // Demo page styles
@@ -59,6 +58,12 @@ html {
 		font-size:16px;
 		color: #aeaeae;
 		margin-bottom: 5px;
+	}
+}
+
+@include mobile-only(){
+	body{
+		background:black;
 	}
 }
 

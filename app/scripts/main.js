@@ -227,8 +227,11 @@ function(app, Router) {
 
       }
       
-      this.model.defaults[status] = $(ev.currentTarget).val();
-      this.model.getOptions(status);
+      console.log(this.model.defaults.indexOf($(ev.currentTarget).val()));
+      if(this.model.defaults.indexOf($(ev.currentTarget).val()) !== -1){
+        this.model.defaults[status] = $(ev.currentTarget).val();
+        this.model.getOptions(status);
+      }
 
       $('.curt-vehiclestring').html(this.model.vehicleString());
       
