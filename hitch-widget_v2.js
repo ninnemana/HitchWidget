@@ -983,11 +983,11 @@ function loadCheckout(price,title, custPartID, partID){
             if(cart_link.length > 0){
                 checkoutHTML += '<span class="price">'+price+'</span><br />';
                 checkoutHTML += '<a href="'+cart_link.replace('[part_id]',custPartID)+'" title="Buy Now">';
-                checkoutHTML += '<img src="https://www.curtmfg.com/widget_v2/img/checkout.png" alt="checkout" />';
+                checkoutHTML += '<img src="https://labs.curtmfg.com/widget_v2/img/checkout.png" alt="checkout" />';
                 checkoutHTML += '</a><br />';
             }else{
                 checkoutHTML += '<a href="javascript:void()" title="Buy Now" class="tiretown" id="'+custPartID+'">';
-                checkoutHTML += '<img src="https://www.curtmfg.com/widget_v2/img/checkout.png" alt="checkout" />';
+                checkoutHTML += '<img src="https://labs.curtmfg.com/widget_v2/img/checkout.png" alt="checkout" />';
                 checkoutHTML += '</a><br />';
             }
             break;
