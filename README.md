@@ -1,6 +1,6 @@
 # Hitch Widget v2.0
 
-[![Build Status](https://travis-ci.org/curt-labs/HitchWidget.png?branch=v3)](https://travis-ci.org/curt-labs/HitchWidget)
+[![Build Status](https://travis-ci.org/curt-labs/HitchWidget.png?branch=v2)](https://travis-ci.org/curt-labs/HitchWidget)
 
 
 
