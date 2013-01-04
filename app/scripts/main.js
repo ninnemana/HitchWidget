@@ -1,17 +1,16 @@
 /*global $:false */
 /*global Backbone:false */
-	'use strict';
+  'use strict';
 require([
 // Application.
 'app',
 
 // Main Router.
 'router'],
-
 function (app, Router) {
 
-	var container = $('.widget-container');
-	var key = $(container).data('key');
+	// Global Variables
+	var API_URL = 'https://api.curtmfg.com/v3/';
 
 	// Define your master router on the application namespace and trigger all
 	// navigation from this instance.
@@ -20,8 +19,8 @@ function (app, Router) {
 	// Trigger the initial route and enable HTML5 History API support, set the
 	// root folder to '/' by default.  Change in app.js.
 	Backbone.history.start({
-		pushState: true,
-		root: app.root
+	pushState: true,
+	root: app.root
 	});
 
 	// All navigation that is relative should be passed through the navigate
@@ -29,10 +28,10 @@ function (app, Router) {
 	// attribute, bypass the delegation completely.
 	$(document).on('click', 'a:not([data-bypass])', function (evt) {
 		// Get the absolute anchor href.
-		var href = $(this).attr("href");
+		var href = $(this).attr('href');
 
 		// If the href exists and is a hash route, run it through Backbone.
-		if (href && href.indexOf("#") === 0) {
+		if (href && href.indexOf('#') === 0) {
 			// Stop the default event to ensure the link will not cause a page
 			// refresh.
 			evt.preventDefault();
@@ -46,285 +45,133 @@ function (app, Router) {
 
 	var parseQs = function (name) {
 		name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-		var regexS = "[\\?&]" + name + "=([^&#]*)";
+		var regexS = '[\\?&]' + name + '=([^&#]*)';
 		var regex = new RegExp(regexS);
 		var results = regex.exec(window.location.search);
 		if (results === null) {
-			return "";
+			return '';
 		} else {
-			return decodeURIComponent(results[1].replace(/\+/g, " "));
+			return decodeURIComponent(results[1].replace(/\+/g, ' '));
 		}
 	};
 
-
-	var AcesConfig = Backbone.Model.extend({
-		Type: '',
-		Options: []
-	});
-
-	var Lookup = Backbone.Model.extend({
+	var VehicleConfiguration = Backbone.Model.extend({
 		defaults: {
-			year: 0,
-			make: '',
-			model: '',
-			submodel: '',
-			config: []
+			'year':0,
+			'make':'',
+			'model':'',
+			'sub_model':'',
+			'dynamic_config': []
 		},
-		setYear: function(y){
-			this.defaults.year = y;
-			this.defaults.make = '';
-			this.defaults.model = '';
-			this.defaults.submodel = '';
-		},
-		setMake: function(m){
-			this.defaults.make = m;
-			this.defaults.model = '';
-			this.defaults.submodel = '';
-		},
-		setModel: function(m){
-			this.defaults.model = m;
-			this.defaults.submodel = '';
-		},
-		setSubmodel: function(s){
-			this.defaults.submodel = s;
-		},
-		get: function (arg1, callback) {
-			switch (arg1.toLowerCase()) {
-				case 'year':
-					this.getMakes(function (makes) {
-						callback(makes);
-					});
-					break;
-				case 'make':
-					this.getModels(function (models) {
-						callback(models);
-					});
-					break;
-				case 'model':
-					this.getSubModels(function (submodels) {
-						callback(submodels);
-					});
-					break;
-				case 'submodel':
-					this.getConfig(function (config) {
-						callback(config);
-					});
-					break;
-				case 'config':
-					this.getConfig(this.defaults.config, function (config) {
-						console.log(config);
-					});
-					break;
-				default:
-					this.getYears(function (years) {
-						callback(years);
-					});
-			}
-		},
-		getOptions: function (arg1) {
-			var html = '';
-			switch (arg1.toLowerCase()) {
-				case 'year':
-					this.getMakes(function (makes) {
-						html += html += '<option value="">- Select Make -</option>';
-						for (var i = 0; i < makes.length; i++) {
-							html += '<option value="' + makes[i].Make + '"">' + makes[i].Make + '</option>';
-						}
-						$('.curt-lookup').html(html);
-					});
-					break;
-				case 'make':
-					this.getModels(function (models) {
-						html += html += '<option value="">- Select Model -</option>';
-						for (var i = 0; i < models.length; i++) {
-							html += '<option value="' + models[i].Model + '"">' + models[i].Model + '</option>';
-						}
-						$('.curt-lookup').html(html);
-					});
-					break;
-				case 'model':
-					this.getSubModels(function (submodels) {
-						html += html += '<option value="">- Select SubModel -</option>';
-						for (var i = 0; i < submodels.length; i++) {
-							html += '<option value="' + submodels[i].Submodel + '"">' + submodels[i].Submodel + '</option>';
-						}
-						$('.curt-lookup').html(html);
-					});
-					break;
-				case 'submodel':
-					this.getConfig(function (resp) {
-						console.log(resp);
-					});
-					break;
-				case 'config':
-					this.getConfig(function (resp) {
-						console.log(resp);
-					});
-					break;
-				default:
-					this.getYears(function (years) {
-						html += html += '<option value="">- Select Year -</option>';
-						for (var i = 0; i < years.length; i++) {
-							html += '<option value="' + years[i].Year + '"">' + years[i].Year + '</option>';
-						}
-						$('.curt-lookup').append(html);
-					});
-			}
-		},
-		getYears: function (callback) {
-			$.getJSON('https://api.curtmfg.com/v3/vehicle/years', {
-				'key': '8aee0620-412e-47fc-900a-947820ea1c1d'
-			}, function (resp) {
-
-				var data = resp;
-				data.length = resp.length;
-				var years = [];
-				years = Array.prototype.slice.call(data);
-				callback(years);
-			});
-		},
-		getMakes: function (callback) {
-			$.getJSON('https://api.curtmfg.com/v3/vehicle/makes/' + this.defaults.year, {
-				'key': '8aee0620-412e-47fc-900a-947820ea1c1d'
-			}, function (resp) {
-
-				var data = resp;
-				data.length = resp.length;
-				var years = [];
-				years = Array.prototype.slice.call(data);
-				callback(years);
-			});
-		},
-		getModels: function (callback) {
-			$.getJSON('https://api.curtmfg.com/v3/vehicle/models/' + this.defaults.year + '/' + this.defaults.make, {
-				'key': '8aee0620-412e-47fc-900a-947820ea1c1d'
-			}, function (resp) {
-
-				var data = resp;
-				data.length = resp.length;
-				var years = [];
-				years = Array.prototype.slice.call(data);
-				callback(years);
-			});
-		},
-		getSubModels: function (callback) {
-			$.getJSON('https://api.curtmfg.com/v3/vehicle/submodels/' + this.defaults.year + '/' + this.defaults.make + '/' + this.defaults.model, {
-				'key': '8aee0620-412e-47fc-900a-947820ea1c1d'
-			}, function (resp) {
-
-				var data = resp;
-				data.length = resp.length;
-				var years = [];
-				years = Array.prototype.slice.call(data);
-				callback(years);
-			});
-		},
-		getConfig: function (callback) {
-			$.getJSON('https://api.curtmfg.com/v3/vehicle/config/' + this.defaults.year + '/' + this.defaults.make + '/' + this.defaults.model + '/' + this.defaults.submodel,
-			{'key': '8aee0620-412e-47fc-900a-947820ea1c1d'},
-			function (resp) {
-				var config = new AcesConfig({
-					Type: resp.Type,
-					Options: resp.Options
-				});
-				callback(config);
-			});
-		},
-		vehicleString: function () {
-			var str = '';
-			if (this.defaults.year !== undefined && this.defaults.year > 0) {
-				str += this.defaults.year;
-			}
-			if (this.defaults.make !== undefined && this.defaults.make.length > 0) {
-				str += ' ' + this.defaults.make;
-			}
-			if (this.defaults.model !== undefined && this.defaults.model.length > 0) {
-				str += ' ' + this.defaults.model;
-			}
-			if (this.defaults.submodel !== undefined && this.defaults.submodel.length > 0) {
-				str += ' ' + this.defaults.submodel;
+		toString: function(){
+			var str = this.get('year');
+			str += ' ' + this.get('make');
+			str += ' ' +this.get('model');
+			str += ' ' +this.get('sub_model');
+			for (var i = this.get('dynamic_config').length - 1; i >= 0; i--) {
+				var config = this.get('dynamic_config')[i];
+				str += ' ' + config.key + ' ' + config.value;
 			}
 			return str;
 		},
-		currentStatus: function () {
-			if (this.defaults.year === undefined || this.defaults.year === 0) {
-				return '';
-			}
-			if (this.defaults.make === undefined || this.defaults.make.length === 0) {
-				return 'year';
-			}
-			if (this.defaults.model === undefined || this.defaults.model.length === 0) {
-				return 'make';
-			}
-
-			if (this.defaults.submodel === undefined || this.defaults.submodel.length === 0) {
-				return 'model';
-			}
-			return 'config';
+		load_years: function(callback){
+			console.log(key);
+			$.ajax({
+				url: API_URL + 'vehicle',
+				type:'get',
+				dataType:'json',
+				data: {
+					'key': key
+				},
+				success: function(resp,status,xhr){
+					callback(resp.ConfigOption.Options);
+				},
+				error: function(xhr,status,err){
+					callback([]);
+				}
+			});
+			//callback([]);
+		},
+		load_makes: function(callback){
+			callback([]);
+		},
+		load_models: function(callback){
+			callback([]);
+		},
+		load_subs: function(callback){
+			callback([]);
+		},
+		load_config: function(callback){
+			callback([]);
 		}
 	});
 
 	var LookupView = Backbone.View.extend({
-		el: $('.widget-container'),
+		tagName: 'div',
+		className: 'widget-container',
+		el: '.widget-container',
 		events: {
-			'change select.curt-lookup': 'stateChange'
+			'change .year':'year_changed',
+			'change .make':'make_changed',
+			'change .model':'model_changed',
+			'change .sub_model':'sub_changed',
+			'change .config':'config_changed'
 		},
-		initialize: function () {
-			_.bindAll(this, 'render', 'years', 'makes', 'models', 'submodels');
-
-			this.lookup = new Lookup();
+		initialize: function(){
+			//this.listenTo(this.model,'change',this.render);
 			this.render();
 		},
+		render: function(){
+			if(this.model.get('year') === 0){
+				var self = this;
+				this.model.load_years(function(years){
+					var html = '<select class="year">';
+					html += '<option value="0">- Select Year -</option>';
+					for (var i = 0; i <= years.length - 1; i++) {
+						html += '<option value="' + years[i] +'">' + years[i] + '</option>';
+					}
+					html += '</select>';
 
-		render: function () {
-			var html = '<span class="curt-vehiclestring">' + this.model.vehicleString() + '</span>';
-			html += '<select class="curt-lookup" data-state="year">';
-			this.model.getOptions(this.model.currentStatus());
-			html += '</select>';
-			$(this.el).append(html);
+					$(self.el).html(html);
+					return this;
+				});
+			}else if(this.model.has('make')){
 
-			lookup.defaults.year = parseQs('year');
-			lookup.defaults.make = parseQs('make');
-			lookup.defaults.model = parseQs('model');
-			lookup.defaults.submodel = parseQs('submodel');
-
+			}
+		},
+		year_changed: function(e){
+			this.model.set({
+				year:e.currentTarget.value,
+				make:undefined,
+				model:undefined,
+				sub_model:undefined,
+				dynamic_config:[]
+			});
+			this.render();
+		},
+		make_changed: function(){
 
 		},
+		model_changed: function(){
 
-		stateChange: function (ev) {
-			var status = $(ev.currentTarget).data('state');
-			switch (status.toLowerCase()) {
-				case 'year':
-					$(ev.currentTarget).data('state', 'make');
-					break;
-				case 'make':
-					$(ev.currentTarget).data('state', 'model');
-					break;
-				case 'model':
-					$(ev.currentTarget).data('state', 'submodel');
-					break;
-				case 'submodel':
-					$(ev.currentTarget).data('state', 'config');
-					break;
-				default:
+		},
+		sub_changed: function(){
 
-			}
-
-			if (this.model.defaults[status] !== undefined) {
-				this.model.defaults[status] = $(ev.currentTarget).val();
-				this.model.getOptions(status);
-			}
-
-			$('.curt-vehiclestring').html(this.model.vehicleString());
-
+		},
+		config_changed: function(){
 
 		}
-
 	});
 
-	var lookup = new Lookup();
+	var widget_container = jQuery('script.hitch-widget');
+
+	var key = $(widget_container).data('key');
+
+	$(widget_container).before('<div class="widget-container"></div>');
+
+	var config = new VehicleConfiguration();
 	var lookupView = new LookupView({
-		model: lookup
+		model: config
 	});
 
 });
