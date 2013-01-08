@@ -76,6 +76,7 @@ function (app, Router) {
 			return str;
 		},
 		load_years: function(callback){
+			var self = this;
 			$.ajax({
 				url: API_URL + 'vehicle',
 				type:'get',
@@ -84,6 +85,9 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
+					self.set({
+						matched: resp.Matched
+					});
 					callback(resp.ConfigOption.Options);
 				},
 				error: function(xhr,status,err){
@@ -101,6 +105,9 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
+					self.set({
+						matched: resp.Matched
+					});
 					callback(resp.ConfigOption.Options);
 				},
 				error: function(xhr,status,err){
@@ -118,6 +125,9 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
+					self.set({
+						matched: resp.Matched
+					});
 					callback(resp.ConfigOption.Options);
 				},
 				error: function(xhr,status,err){
@@ -135,6 +145,9 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
+					self.set({
+						matched: resp.Matched
+					});
 					callback(resp.ConfigOption.Options);
 				},
 				error: function(xhr,status,err){
@@ -172,17 +185,20 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
-					callback(resp);
-
 					self.set({
 						matched: resp.Matched
 					});
+					callback(resp);
 				},
 				error: function(xhr,status,err){
 					callback([]);
 				}
 			});
 		}
+	});
+
+	var PartResults = Backbone.Model.extend({
+
 	});
 
 	var LookupView = Backbone.View.extend({
@@ -249,13 +265,6 @@ function (app, Router) {
 				});
 			}else{
 				this.model.load_config(function(config){
-
-					if(self.model.get('matched').length > 0){
-						console.log('load matched');
-
-						// TO DO - fire off part display for newly matched parts
-					}
-
 					if(config.ConfigOption !== undefined && config.ConfigOption !== null && config.ConfigOption.Type !== undefined){
 						var html = '<select class="config" data-type="' + config.ConfigOption.Type +'">';
 						html += '<option value="">- Select ' + config.ConfigOption.Type + ' -</option>';
@@ -317,15 +326,46 @@ function (app, Router) {
 		}
 	});
 
-	var widget_container = jQuery('script.hitch-widget');
+	var PartResultsView = Backbone.View.extend({
+		tagName: 'div',
+		className: 'widget-results',
+		el: '.widget-results',
+		events: {
+			
+		},
+		initialize: function(){
+			//this.listenTo(this.model,'change',this.render);
+			this.render();
+		},
+		render: function(){
+
+		}
+	});
+
+	var widget_container = jQuery('script.hitch-widget'),
+		config = new VehicleConfiguration(),
+		part_results = new PartResults();
 
 	var key = $(widget_container).data('key');
-
 	$(widget_container).before('<div class="widget-container"></div>');
+	$(widget_container).before('<div class="widget-results"></div>');
 
-	var config = new VehicleConfiguration();
 	var lookupView = new LookupView({
 		model: config
+	});
+
+	var partView = new PartResultsView({
+		model: part_results
+	});
+
+	_.extend(config, Backbone.Events);
+
+	config.on('change:matched',function(){
+		var matched = this.get('matched');
+		for (var i = matched.length - 1; i >= 0; i--) {
+			var match = matched[i];
+			console.log(match);
+		}
 	});
 
 });
