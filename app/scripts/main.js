@@ -19,8 +19,8 @@ function (app, Router) {
 	// Trigger the initial route and enable HTML5 History API support, set the
 	// root folder to '/' by default.  Change in app.js.
 	Backbone.history.start({
-	pushState: true,
-	root: app.root
+		pushState: true,
+		root: app.root
 	});
 
 	// All navigation that is relative should be passed through the navigate
@@ -61,7 +61,8 @@ function (app, Router) {
 			'make':'',
 			'model':'',
 			'sub_model':'',
-			'dynamic_config': []
+			'dynamic_config': [],
+			'matched': [],
 		},
 		toString: function(){
 			var str = this.get('year');
@@ -75,7 +76,6 @@ function (app, Router) {
 			return str;
 		},
 		load_years: function(callback){
-			console.log(key);
 			$.ajax({
 				url: API_URL + 'vehicle',
 				type:'get',
@@ -90,19 +90,98 @@ function (app, Router) {
 					callback([]);
 				}
 			});
-			//callback([]);
 		},
 		load_makes: function(callback){
-			callback([]);
+			var self = this;
+			$.ajax({
+				url: API_URL + 'vehicle/' + self.get('year'),
+				type:'get',
+				dataType:'json',
+				data: {
+					'key': key
+				},
+				success: function(resp,status,xhr){
+					callback(resp.ConfigOption.Options);
+				},
+				error: function(xhr,status,err){
+					callback([]);
+				}
+			});
 		},
 		load_models: function(callback){
-			callback([]);
+			var self = this;
+			$.ajax({
+				url: API_URL + 'vehicle/' + self.get('year') + '/' + self.get('make'),
+				type:'get',
+				dataType:'json',
+				data: {
+					'key': key
+				},
+				success: function(resp,status,xhr){
+					callback(resp.ConfigOption.Options);
+				},
+				error: function(xhr,status,err){
+					callback([]);
+				}
+			});
 		},
 		load_subs: function(callback){
-			callback([]);
+			var self = this;
+			$.ajax({
+				url: API_URL + 'vehicle/' + self.get('year') + '/' + self.get('make') + '/' + self.get('model'),
+				type:'get',
+				dataType:'json',
+				data: {
+					'key': key
+				},
+				success: function(resp,status,xhr){
+					callback(resp.ConfigOption.Options);
+				},
+				error: function(xhr,status,err){
+					callback([]);
+				}
+			});
 		},
 		load_config: function(callback){
-			callback([]);
+			var self = this;
+
+			var url = API_URL + 'vehicle/' + self.get('year') + '/' + self.get('make') + '/' + self.get('model') + '/' + self.get('sub_model') + '/';
+
+			var dyn = self.get('dynamic_config');
+
+			if(dyn.length > 0){
+				var keys = '',
+					values = '';
+				for (var i = dyn.length - 1; i >= 0; i--) {
+					if(i === dyn.length - 1){
+						keys += dyn[i].key;
+						values += dyn[i].val;
+					}else{
+						keys += dyn[i].key + ',';
+						values += dyn[i].val + ',';
+					}
+				}
+				url += keys + '/' + values;
+			}
+
+			$.ajax({
+				url: url,
+				type:'get',
+				dataType:'json',
+				data: {
+					'key': key
+				},
+				success: function(resp,status,xhr){
+					callback(resp);
+
+					self.set({
+						matched: resp.Matched
+					});
+				},
+				error: function(xhr,status,err){
+					callback([]);
+				}
+			});
 		}
 	});
 
@@ -122,8 +201,8 @@ function (app, Router) {
 			this.render();
 		},
 		render: function(){
+			var self = this;
 			if(this.model.get('year') === 0){
-				var self = this;
 				this.model.load_years(function(years){
 					var html = '<select class="year">';
 					html += '<option value="0">- Select Year -</option>';
@@ -133,10 +212,61 @@ function (app, Router) {
 					html += '</select>';
 
 					$(self.el).html(html);
-					return this;
+					return self;
 				});
-			}else if(this.model.has('make')){
+			}else if(!this.model.has('make')){
+				this.model.load_makes(function(makes){
+					var html = '<select class="make">';
+					html += '<option value="">- Select Make -</option>';
+					for (var i = 0; i <= makes.length - 1; i++) {
+						html += '<option value="' + makes[i] +'">' + makes[i] + '</option>';
+					}
+					html += '</select>';
+					$(self.el).html(html);
+					return self;
+				});
+			}else if(!this.model.has('model')){
+				this.model.load_models(function(models){
+					var html = '<select class="model">';
+					html += '<option value="">- Select Model -</option>';
+					for (var i = 0; i <= models.length - 1; i++) {
+						html += '<option value="' + models[i] +'">' + models[i] + '</option>';
+					}
+					html += '</select>';
+					$(self.el).html(html);
+					return self;
+				});
+			}else if(!this.model.has('sub_model')){
+				this.model.load_subs(function(subs){
+					var html = '<select class="sub_model">';
+					html += '<option value="">- Select Submodel -</option>';
+					for (var i = 0; i <= subs.length - 1; i++) {
+						html += '<option value="' + subs[i] +'">' + subs[i] + '</option>';
+					}
+					html += '</select>';
+					$(self.el).html(html);
+					return self;
+				});
+			}else{
+				this.model.load_config(function(config){
 
+					if(self.model.get('matched').length > 0){
+						console.log('load matched');
+
+						// TO DO - fire off part display for newly matched parts
+					}
+
+					if(config.ConfigOption !== undefined && config.ConfigOption !== null && config.ConfigOption.Type !== undefined){
+						var html = '<select class="config" data-type="' + config.ConfigOption.Type +'">';
+						html += '<option value="">- Select ' + config.ConfigOption.Type + ' -</option>';
+						for (var i = 0; i <= config.ConfigOption.Options.length - 1; i++) {
+							html += '<option value="' + config.ConfigOption.Options[i] +'">' + config.ConfigOption.Options[i] + '</option>';
+						}
+						html += '</select>';
+						$(self.el).html(html);
+					}
+					return self;
+				});
 			}
 		},
 		year_changed: function(e){
@@ -145,21 +275,45 @@ function (app, Router) {
 				make:undefined,
 				model:undefined,
 				sub_model:undefined,
-				dynamic_config:[]
+				dynamic_config:[],
+				matched: []
 			});
 			this.render();
 		},
-		make_changed: function(){
-
+		make_changed: function(e){
+			this.model.set({
+				make:e.currentTarget.value,
+				model:undefined,
+				sub_model:undefined,
+				dynamic_config:[],
+				matched: []
+			});
+			this.render();
 		},
-		model_changed: function(){
-
+		model_changed: function(e){
+			this.model.set({
+				model:e.currentTarget.value,
+				sub_model:undefined,
+				dynamic_config:[],
+				matched: []
+			});
+			this.render();
 		},
-		sub_changed: function(){
-
+		sub_changed: function(e){
+			this.model.set({
+				sub_model:e.currentTarget.value,
+				dynamic_config:[],
+				matched: []
+			});
+			this.render();
 		},
-		config_changed: function(){
-
+		config_changed: function(e){
+			var dyn = this.model.get('dynamic_config');
+			dyn.push({key: $(e.currentTarget).data('type'), val: e.currentTarget.value});
+			this.model.set({
+				dynamic_config: dyn
+			});
+			this.render();
 		}
 	});
 
