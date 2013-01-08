@@ -26,7 +26,6 @@ function($, _, Backbone) {
       layout: "app/templates/layouts/",
       template: "app/templates/"
     },
-
     fetch: function(path) {
       path = path + ".html";
 
