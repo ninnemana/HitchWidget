@@ -367,5 +367,4 @@ function (app, Router) {
 			console.log(match);
 		}
 	});
-
 });
