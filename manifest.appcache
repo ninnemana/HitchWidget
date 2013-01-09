@@ -1,0 +1,34 @@
+#  (undefined, #undefined)
+#  (undefined, #undefined)
+CACHE MANIFEST
+
+# Time: Wed Jan 09 2013 16:38:23 GMT-0600 (CST)
+# This manifest was created by confess.js, http://github.com/jamesgpearce/confess
+#
+# Retrieved URL: http://localhost:3501/
+# User-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11
+#
+# Config:
+#  task: appcache
+#  userAgent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11
+#  wait: 0
+#  consolePrefix: #
+#  verbose: true
+#  appcache:
+#   urlsFromDocument: true
+#   urlsFromRequests: false
+#   cacheFilter: .*
+#   networkFilter: null
+#  url: http://localhost:3501
+#  configFile: /usr/local/lib/node_modules/yeoman/lib/support/confess.json
+
+CACHE:
+http://localhost:3501/images/44f02d7d.glyphicons-halflings.png
+http://localhost:3501/images/glyphicons-halflings-white.png
+http://localhost:3501/images/light_wool.png
+http://www.google-analytics.com/ga.js
+scripts/92d02fa9.amd-app.js
+styles/5754809d.main.css
+
+NETWORK:
+*
