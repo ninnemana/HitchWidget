@@ -62,7 +62,29 @@
             
             <script data-main="scripts/config" class="hitch-widget" data-key="8aee0620-412e-47fc-900a-947820ea1c1d" src="scripts/libs/require.js"></script>
             
-            <div data-key="8aee0620-412e-47fc-900a-947820ea1c1d" data-checkout="none" data-buy="true" data-css="main" data-display="replace" class="widget-container"></div>
+            
+            <script type="text/template" class="widget-container-tmpl">
+                <div class="widget_container">
+                    <div class="vehicle-info"></div>
+                    <div class="select-area"></div>
+                </div>
+                <div class="widget-results"></div>
+            </script>
+
+            <script type="text/template" class="matched-part-tmpl">
+                <div class="category">
+                    <span class="title"><%= Category %></span>
+                    <ul>
+                        <% _.each(Parts,function(p){ %>
+                            <li><%= p %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </script>
+            
+            
+            
+            
         </div>
         <footer>
             <div class="copy">

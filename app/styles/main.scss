@@ -58,6 +58,10 @@ html {
 		color: #aeaeae;
 		margin-bottom: 5px;
 	}
+
+	select{
+		display: block;
+	}
 }
 
 @include mobile-only(){

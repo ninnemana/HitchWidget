@@ -1,11 +1,11 @@
 define([
   // Libraries.
-  "jquery",
-  "lodash",
-  "backbone",
+  'jquery',
+  'lodash',
+  'backbone',
 
   // Plugins.
-  "plugins/backbone.layoutmanager"
+  'plugins/backbone.layoutmanager'
 ],
 
 function($, _, Backbone) {
@@ -14,7 +14,7 @@ function($, _, Backbone) {
   // creation.
   var app = {
     // The root path to run the application.
-    root: "/"
+    root: '/widget.html'
   };
 
   // Localize or create a new JavaScript Template object.
@@ -23,11 +23,11 @@ function($, _, Backbone) {
   // Configure LayoutManager with Backbone Boilerplate defaults.
   Backbone.LayoutManager.configure({
     paths: {
-      layout: "app/templates/layouts/",
-      template: "app/templates/"
+      layout: 'app/templates/layouts/',
+      template: 'app/templates/'
     },
     fetch: function(path) {
-      path = path + ".html";
+      path = path + '.html';
 
       if (!JST[path]) {
         $.ajax({ url: app.root + path, async: false }).then(function(contents) {
@@ -61,12 +61,12 @@ function($, _, Backbone) {
       // Create a new Layout.
       var layout = new Backbone.Layout({
         template: name,
-        className: "layout " + name,
-        id: "layout"
+        className: 'layout ' + name,
+        id: 'layout'
       });
 
       // Insert into the DOM.
-      $("#main").empty().append(layout.el);
+      $('#main').empty().append(layout.el);
 
       // Render the layout.
       layout.render();

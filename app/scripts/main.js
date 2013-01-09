@@ -9,19 +9,15 @@ require([
 'router'],
 function (app, Router) {
 
-	// Global Variables
-	var API_URL = 'https://api.curtmfg.com/v3/';
+	var year_select = '<select class="year"><option value="0">- Select Year -</option></select>',
+		make_select = '<select class="make"><option value="0">- Select Make -</option></select>',
+		model_select = '<select class="model"><option value="0">- Select Model -</option></select>',
+		widget_container_html = $('.widget-container-tmpl').text(),
+		API_URL = 'https://api.curtmfg.com/v3/';
 
 	// Define your master router on the application namespace and trigger all
 	// navigation from this instance.
 	app.router = new Router();
-
-	// Trigger the initial route and enable HTML5 History API support, set the
-	// root folder to '/' by default.  Change in app.js.
-	Backbone.history.start({
-		pushState: true,
-		root: app.root
-	});
 
 	// All navigation that is relative should be passed through the navigate
 	// method, to be processed by the router. If the link has a `data-bypass`
@@ -61,19 +57,53 @@ function (app, Router) {
 			'make':'',
 			'model':'',
 			'sub_model':'',
-			'dynamic_config': [],
-			'matched': [],
+			'dynamic_config': []
 		},
 		toString: function(){
-			var str = this.get('year');
-			str += ' ' + this.get('make');
-			str += ' ' +this.get('model');
-			str += ' ' +this.get('sub_model');
+			var str = this.get('year') || '';
+			str += ' ' + (this.get('make') || '');
+			str += ' ' + (this.get('model') || '');
+			str += ' ' + (this.get('sub_model') || '');
 			for (var i = this.get('dynamic_config').length - 1; i >= 0; i--) {
-				var config = this.get('dynamic_config')[i];
-				str += ' ' + config.key + ' ' + config.value;
+				var dyn = this.get('dynamic_config')[i];
+				str += ' ' + dyn.val;
 			}
 			return str;
+		},
+		get_info: function(){
+			var html ='';
+			if(this.has('year')){
+				html += '<a href="#' + this.get('year') + '">' + this.get('year') + '</a> ';
+			}
+			if(this.has('make')){
+				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '">' + this.get('make') + '</a> ';
+			}
+			if(this.has('model')){
+				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '">' + this.get('model') + '</a> ';
+			}
+			if(this.has('sub_model')){
+				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '/' + this.get('sub_model') + '">' + this.get('sub_model') + '</a> ';
+			}
+			if(this.has('dynamic_config') && this.get('dynamic_config').length > 0){
+				var dyn = this.get('dynamic_config');
+				var keys = '',
+					values = '';
+				for (var i = dyn.length - 1; i >= 0; i--) {
+					if(i === dyn.length - 1){
+						keys += dyn[i].key;
+						values += dyn[i].val;
+					}else{
+						keys += dyn[i].key + ',';
+						values += dyn[i].val + ',';
+					}
+				}
+				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '/' + this.get('sub_model') + '/' + keys + '/' + values + '">' + values + '</a> ';
+			}
+			if(this.has('year')){
+				html += '<a href="#" class="clear">Reset</a>';
+			}
+			return html;
+			
 		},
 		load_years: function(callback){
 			var self = this;
@@ -85,9 +115,7 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
-					self.set({
-						matched: resp.Matched
-					});
+					partView.model.add(resp.Matched);
 					callback(resp.ConfigOption.Options);
 				},
 				error: function(xhr,status,err){
@@ -105,9 +133,7 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
-					self.set({
-						matched: resp.Matched
-					});
+					partView.model.add(resp.Matched);
 					callback(resp.ConfigOption.Options);
 				},
 				error: function(xhr,status,err){
@@ -125,9 +151,7 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
-					self.set({
-						matched: resp.Matched
-					});
+					partView.model.add(resp.Matched);
 					callback(resp.ConfigOption.Options);
 				},
 				error: function(xhr,status,err){
@@ -145,9 +169,7 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
-					self.set({
-						matched: resp.Matched
-					});
+					partView.model.add(resp.Matched);
 					callback(resp.ConfigOption.Options);
 				},
 				error: function(xhr,status,err){
@@ -156,11 +178,9 @@ function (app, Router) {
 			});
 		},
 		load_config: function(callback){
-			var self = this;
-
-			var url = API_URL + 'vehicle/' + self.get('year') + '/' + self.get('make') + '/' + self.get('model') + '/' + self.get('sub_model') + '/';
-
-			var dyn = self.get('dynamic_config');
+			var self = this,
+				url = API_URL + 'vehicle/' + self.get('year') + '/' + self.get('make') + '/' + self.get('model') + '/' + self.get('sub_model') + '/',
+				dyn = self.get('dynamic_config');
 
 			if(dyn.length > 0){
 				var keys = '',
@@ -185,10 +205,8 @@ function (app, Router) {
 					'key': key
 				},
 				success: function(resp,status,xhr){
-					self.set({
-						matched: resp.Matched
-					});
-					callback(resp);
+					partView.model.add(resp.Matched);
+					callback(resp.ConfigOption);
 				},
 				error: function(xhr,status,err){
 					callback([]);
@@ -198,14 +216,75 @@ function (app, Router) {
 	});
 
 	var PartResults = Backbone.Model.extend({
+		defaults:{
+			'categories':[]
+		},
+		add:function(match){
+			var matched = [];
+			if(Object.prototype.toString.call(match) !== '[object Array]'){
+				matched.push(match);
+			}else{
+				matched = match;
+			}
 
+			var cats = this.get('categories') || [];
+			for (var i = 0; i < matched.length; i++) {
+				for (var j = 0; j < cats.length; j++) {
+					if(cats[j].Category === matched[i].Category){
+						cats.splice(j, j+1);
+					}
+				}
+				cats.push(matched[i]);
+			}
+			if(cats !== this.get('categoires') && cats.length > 0){
+				part_results.set({'categories':cats});
+				part_results.trigger('change:categories');
+			}
+		},
+		matches:function(cat_title){
+			var cats = this.get('categories');
+			for (var i = 0; i < cats.length; i++) {
+				if(cat_title === cats[i].Category){
+					return cats[i].Parts;
+				}
+			}
+		},
+		load_parts:function(cat_title,callback){
+			var part_ids = this.matches(cat_title);
+			var parts_str = '';
+			for (var i = 0; i < part_ids.length; i++) {
+				if(i !== 0){
+					parts_str += ',' + part_ids[i];
+				}else{
+					parts_str = part_ids[i];
+				}
+			}
+			$.ajax({
+				url: API_URL + '/parts/' + parts_str,
+				type:'get',
+				dataType: 'json',
+				data:{
+					'key':key
+				},
+				success: function(resp,status,xhr){
+					callback(resp);
+				},
+				error: function(xhr,status,err){
+					callback([]);
+				}
+			});
+		},
+		load_new:function(){
+			console.error('load new called');
+		}
 	});
 
 	var LookupView = Backbone.View.extend({
 		tagName: 'div',
-		className: 'widget-container',
-		el: '.widget-container',
+		className: 'select-area',
+		el: '.select-area',
 		events: {
+			'change .select-area':'lookup_changed',
 			'change .year':'year_changed',
 			'change .make':'make_changed',
 			'change .model':'model_changed',
@@ -213,12 +292,22 @@ function (app, Router) {
 			'change .config':'config_changed'
 		},
 		initialize: function(){
+			_.bindAll(this);
 			//this.listenTo(this.model,'change',this.render);
 			this.render();
 		},
 		render: function(){
 			var self = this;
-			if(this.model.get('year') === 0){
+			partView.model.unset('categories');
+			
+			(function(){
+				var html = self.model.get_info();
+				console.log(html);
+				$('.vehicle-info').html(html);
+			})();
+
+
+			if(!this.model.has('year') || this.model.get('year') === 0){
 				this.model.load_years(function(years){
 					var html = '<select class="year">';
 					html += '<option value="0">- Select Year -</option>';
@@ -226,8 +315,8 @@ function (app, Router) {
 						html += '<option value="' + years[i] +'">' + years[i] + '</option>';
 					}
 					html += '</select>';
-
 					$(self.el).html(html);
+					
 					return self;
 				});
 			}else if(!this.model.has('make')){
@@ -250,6 +339,7 @@ function (app, Router) {
 					}
 					html += '</select>';
 					$(self.el).html(html);
+					
 					return self;
 				});
 			}else if(!this.model.has('sub_model')){
@@ -264,12 +354,12 @@ function (app, Router) {
 					return self;
 				});
 			}else{
-				this.model.load_config(function(config){
-					if(config.ConfigOption !== undefined && config.ConfigOption !== null && config.ConfigOption.Type !== undefined){
-						var html = '<select class="config" data-type="' + config.ConfigOption.Type +'">';
-						html += '<option value="">- Select ' + config.ConfigOption.Type + ' -</option>';
-						for (var i = 0; i <= config.ConfigOption.Options.length - 1; i++) {
-							html += '<option value="' + config.ConfigOption.Options[i] +'">' + config.ConfigOption.Options[i] + '</option>';
+				this.model.load_config(function(option){
+					if(option !== undefined && option !== null && option.Type !== undefined && option.Options.length > 0){
+						var html = '<select class="config" data-type="' + option.Type +'">';
+						html += '<option value="">- Select ' + option.Type + ' -</option>';
+						for (var i = 0; i <= option.Options.length - 1; i++) {
+							html += '<option value="' + option.Options[i] +'">' + option.Options[i] + '</option>';
 						}
 						html += '</select>';
 						$(self.el).html(html);
@@ -278,51 +368,42 @@ function (app, Router) {
 				});
 			}
 		},
+		lookup_changed:function(e){
+			console.log(e.currentTarget);
+			console.log('something changed');
+		},
 		year_changed: function(e){
-			this.model.set({
-				year:e.currentTarget.value,
-				make:undefined,
-				model:undefined,
-				sub_model:undefined,
-				dynamic_config:[],
-				matched: []
-			});
-			this.render();
+			Backbone.history.navigate(e.currentTarget.value, true);
 		},
 		make_changed: function(e){
-			this.model.set({
-				make:e.currentTarget.value,
-				model:undefined,
-				sub_model:undefined,
-				dynamic_config:[],
-				matched: []
-			});
-			this.render();
+			Backbone.history.navigate(this.model.get('year') + '/' + e.currentTarget.value,true);
 		},
 		model_changed: function(e){
-			this.model.set({
-				model:e.currentTarget.value,
-				sub_model:undefined,
-				dynamic_config:[],
-				matched: []
-			});
-			this.render();
+			Backbone.history.navigate(this.model.get('year')  +'/' + this.model.get('make') + '/' + e.currentTarget.value,true);
 		},
 		sub_changed: function(e){
-			this.model.set({
-				sub_model:e.currentTarget.value,
-				dynamic_config:[],
-				matched: []
-			});
-			this.render();
+			Backbone.history.navigate(this.model.get('year')  +'/' + this.model.get('make') + '/'  + this.model.get('model') + '/' + e.currentTarget.value,true);
 		},
 		config_changed: function(e){
+			
+			var path = this.model.get('year')  +'/' + this.model.get('make') + '/'  + this.model.get('model') + '/' + this.model.get('sub_model') + '/';
 			var dyn = this.model.get('dynamic_config');
 			dyn.push({key: $(e.currentTarget).data('type'), val: e.currentTarget.value});
-			this.model.set({
-				dynamic_config: dyn
-			});
-			this.render();
+
+			var keys = '',
+				values = '';
+			for (var i = dyn.length - 1; i >= 0; i--) {
+				if(i === dyn.length - 1 && keys.indexOf(dyn[i].key) === -1 && values.indexOf(dyn[i].val) === -1){
+					keys += dyn[i].key;
+					values += dyn[i].val;
+				}else if(keys.indexOf(dyn[i].key) === -1 && values.indexOf(dyn[i].val) === -1){
+					keys += dyn[i].key + ',';
+					values += dyn[i].val + ',';
+				}
+			}
+			path += keys + '/' + values;
+
+			Backbone.history.navigate(path,true);
 		}
 	});
 
@@ -338,33 +419,153 @@ function (app, Router) {
 			this.render();
 		},
 		render: function(){
-
+			var self = this;
+			var cats = this.model.get('categories') || [];
+			var html = '';
+			for (var i = 0; i < cats.length; i++) {
+				var cat = cats[i];
+				var tmpl = $('.matched-part-tmpl').html();
+				html += _.template(tmpl,cat);
+			}
+			$(self.el).html(html);
+			return self;
 		}
 	});
 
 	var widget_container = jQuery('script.hitch-widget'),
 		config = new VehicleConfiguration(),
-		part_results = new PartResults();
+		part_results = new PartResults(),
+		lookupView,
+		partView;
+
 
 	var key = $(widget_container).data('key');
-	$(widget_container).before('<div class="widget-container"></div>');
-	$(widget_container).before('<div class="widget-results"></div>');
+	console.log(widget_container_html);
+	$(widget_container).before(widget_container_html);
 
-	var lookupView = new LookupView({
-		model: config
+	
+
+	app.router.on('route:index',function(){
+		partView = new PartResultsView({
+			model: part_results
+		});
+		config.set({
+			year: undefined,
+			make: undefined,
+			model:undefined,
+			sub_model:undefined,
+			dynamic_config:[]
+		});
+		lookupView = new LookupView({
+			model: config
+		});
 	});
 
-	var partView = new PartResultsView({
-		model: part_results
+	app.router.on('route:preload_year',function(year){
+		partView = new PartResultsView({
+			model: part_results
+		});
+		config.set({
+			year: year,
+			make: undefined,
+			model:undefined,
+			sub_model:undefined,
+			dynamic_config:[]
+		});
+		lookupView = new LookupView({
+			model: config
+		});
 	});
 
-	_.extend(config, Backbone.Events);
+	app.router.on('route:preload_make',function(year,make){
+		partView = new PartResultsView({
+			model: part_results
+		});
+		config.set({
+			year: year,
+			make: make,
+			model:undefined,
+			sub_model:undefined,
+			dynamic_config:[]
+		});
+		lookupView = new LookupView({
+			model: config
+		});
+	});
 
-	config.on('change:matched',function(){
-		var matched = this.get('matched');
-		for (var i = matched.length - 1; i >= 0; i--) {
-			var match = matched[i];
-			console.log(match);
+	app.router.on('route:preload_model',function(year,make,model){
+		partView = new PartResultsView({
+			model: part_results
+		});
+		config.set({
+			year: year,
+			make: make,
+			model:model,
+			sub_model:undefined,
+			dynamic_config:[]
+		});
+		lookupView = new LookupView({
+			model: config
+		});
+	});
+
+	app.router.on('route:preload_submodel',function(year,make,model,submodel){
+		partView = new PartResultsView({
+			model: part_results
+		});
+		config.set({
+			year: year,
+			make: make,
+			model:model,
+			sub_model:submodel,
+			dynamic_config:[]
+		});
+		lookupView = new LookupView({
+			model: config
+		});
+	});
+
+	app.router.on('route:preload_config',function(year,make,model,submodel, config_types, config_values){
+
+		var dyn_types = config_types.split(','),
+			dyn_values = config_values.split(','),
+			dyn = [];
+
+		for (var i = dyn_types.length - 1; i >= 0; i--) {
+			var typ = dyn_types[i],
+				val = dyn_values[i];
+
+			dyn.push({key:typ,val:val});
 		}
+
+
+		partView = new PartResultsView({
+			model: part_results
+		});
+		config.set({
+			year: year,
+			make: make,
+			model:model,
+			sub_model:submodel,
+			dynamic_config:dyn
+		});
+		lookupView = new LookupView({
+			model: config
+		});
+
+		
+	});
+
+	_.extend(part_results, Backbone.Events);
+
+	part_results.on('change:categories',function(){
+		partView.render();
+	});
+
+	// Trigger the initial route and enable HTML5 History API support, set the
+	// root folder to '/' by default.  Change in app.js.
+	Backbone.history.start({
+		pushState: false,
+		root: app.root
 	});
 });
