@@ -74,7 +74,7 @@ function init(){
 function initWidget(){
 
     // Check to see if jQuery is already installed
-    if(typeof(jQuery) == 'undefined'){ // jQuery has not been loaded
+    if(typeof(jQuery) == 'undefined' || parseFloat(jQuery.fn.jquery) < REQUIRED_JQUERY){ // jQuery has not been loaded
         if(!jQueryScriptOutputted){
             // only output the script once...
             jQueryScriptOutputted = true;
@@ -117,7 +117,7 @@ function initWidget(){
                 return this.pushStack( [].sort.apply( this, arguments ), []);
             };
             
-            jQuery('label[for=mount] #mount').live('change',function(){
+            jQuery('#mount').live('change',function(){
                     mount = jQuery(this).val();
                     jQuery('#configurator label').remove();
                     jQuery('#loader').show();
