@@ -49,9 +49,43 @@ html {
 
 
 // Hitch Widget styling
-.widget-container{
+.widget_container{
 	margin:10px 10px 10px 40px;
+	clear: both;
 
+	.vehicle-info{
+		float: left;
+
+		a {
+			font-size: 14px;
+			color:#343434;
+			margin: 5px 7px;
+			display: inline-block;
+			min-width:80px;
+			padding: 5px 10px;
+			background: rgb(238,238,238);
+			background: rgba(238,238,238, 0.4);
+
+			&:hover{
+				text-decoration: none;
+				background:rgb(238,238,238);
+			}
+		}
+
+		a:after{
+			padding-left:5px;
+			float:right;
+			content: '+';
+		}
+	}
+
+	.select-area{
+		float: left;
+	}
+
+	.clear{
+		display: none;
+	}
 	.curt-vehiclestring{
 		display:block;
 		font-size:16px;
@@ -62,6 +96,10 @@ html {
 	select{
 		display: block;
 	}
+}
+
+.widget-results{
+	margin:40px 20px 20px;
 }
 
 @include mobile-only(){

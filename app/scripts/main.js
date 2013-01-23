@@ -73,34 +73,42 @@ function (app, Router) {
 		get_info: function(){
 			var html ='';
 			if(this.has('year')){
-				html += '<a href="#' + this.get('year') + '">' + this.get('year') + '</a> ';
+				html += '<a href="#">' + this.get('year') + '</a> ';
 			}
 			if(this.has('make')){
-				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '">' + this.get('make') + '</a> ';
+				html += '<a href="#' + this.get('year') + '">' + this.get('make') + '</a> ';
 			}
 			if(this.has('model')){
-				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '">' + this.get('model') + '</a> ';
+				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '">' + this.get('model') + '</a> ';
 			}
 			if(this.has('sub_model')){
-				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '/' + this.get('sub_model') + '">' + this.get('sub_model') + '</a> ';
+				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '">' + this.get('sub_model') + '</a> ';
 			}
 			if(this.has('dynamic_config') && this.get('dynamic_config').length > 0){
+
 				var dyn = this.get('dynamic_config');
-				var keys = '',
-					values = '';
-				for (var i = dyn.length - 1; i >= 0; i--) {
-					if(i === dyn.length - 1){
-						keys += dyn[i].key;
-						values += dyn[i].val;
-					}else{
-						keys += dyn[i].key + ',';
-						values += dyn[i].val + ',';
+
+				console.log(dyn.length);
+				if(dyn.length === 1){
+					html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '/' + this.get('sub_model') + '">' + dyn[0].val + '</a> ';
+				}else{
+					var keys = '',
+						values = '';
+					for (var i = dyn.length - 1; i >= 0; i--) {
+						if(i === dyn.length - 1){
+							keys += dyn[i].key;
+							values += dyn[i].val;
+						}else{
+							keys += dyn[i].key + ',';
+							values += dyn[i].val + ',';
+						}
 					}
+					html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '/' + this.get('sub_model') + '/' + keys + '/' + values + '">' + values + '</a> ';
 				}
-				html += '<a href="#' + this.get('year') + '/' + this.get('make') + '/' + this.get('model') + '/' + this.get('sub_model') + '/' + keys + '/' + values + '">' + values + '</a> ';
 			}
 			if(this.has('year')){
-				html += '<a href="#" class="clear">Reset</a>';
+				$('.widget_container .clear').show();
+				//html += '<a href="#" class="clear">Reset</a>';
 			}
 			return html;
 			
@@ -299,13 +307,13 @@ function (app, Router) {
 		render: function(){
 			var self = this;
 			partView.model.unset('categories');
-			
+			$('.widget_container .clear').hide();
+
+
 			(function(){
 				var html = self.model.get_info();
-				console.log(html);
 				$('.vehicle-info').html(html);
 			})();
-
 
 			if(!this.model.has('year') || this.model.get('year') === 0){
 				this.model.load_years(function(years){
@@ -385,25 +393,26 @@ function (app, Router) {
 			Backbone.history.navigate(this.model.get('year')  +'/' + this.model.get('make') + '/'  + this.model.get('model') + '/' + e.currentTarget.value,true);
 		},
 		config_changed: function(e){
-			
-			var path = this.model.get('year')  +'/' + this.model.get('make') + '/'  + this.model.get('model') + '/' + this.model.get('sub_model') + '/';
-			var dyn = this.model.get('dynamic_config');
-			dyn.push({key: $(e.currentTarget).data('type'), val: e.currentTarget.value});
+			if(e.currentTarget.value.length > 0){
+				var path = this.model.get('year')  +'/' + this.model.get('make') + '/'  + this.model.get('model') + '/' + this.model.get('sub_model') + '/';
+				var dyn = this.model.get('dynamic_config');
+				dyn.push({key: $(e.currentTarget).data('type'), val: e.currentTarget.value});
 
-			var keys = '',
-				values = '';
-			for (var i = dyn.length - 1; i >= 0; i--) {
-				if(i === dyn.length - 1 && keys.indexOf(dyn[i].key) === -1 && values.indexOf(dyn[i].val) === -1){
-					keys += dyn[i].key;
-					values += dyn[i].val;
-				}else if(keys.indexOf(dyn[i].key) === -1 && values.indexOf(dyn[i].val) === -1){
-					keys += dyn[i].key + ',';
-					values += dyn[i].val + ',';
+				var keys = '',
+					values = '';
+				for (var i = dyn.length - 1; i >= 0; i--) {
+					if(i === dyn.length - 1 && keys.indexOf(dyn[i].key) === -1 && values.indexOf(dyn[i].val) === -1){
+						keys += dyn[i].key;
+						values += dyn[i].val;
+					}else if(keys.indexOf(dyn[i].key) === -1 && values.indexOf(dyn[i].val) === -1){
+						keys += dyn[i].key + ',';
+						values += dyn[i].val + ',';
+					}
 				}
-			}
-			path += keys + '/' + values;
+				path += keys + '/' + values;
 
-			Backbone.history.navigate(path,true);
+				Backbone.history.navigate(path,true);
+			}
 		}
 	});
 
