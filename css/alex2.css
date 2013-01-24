@@ -571,3 +571,22 @@ background: linear-gradient(top,  rgb(13,13,13) 0%,rgb(44,46,43) 100%); /* W3C *
     -o-box-shadow: 0 0 6px #2c2e2d;
     box-shadow: 0 0 6px #2c2e2d;
 }
+
+/************** FastTrackRacks Custom Button **********/
+.fasttrackracks_button{
+    background: #164aa5;
+color: white;
+border: 2px outset #123ca4;
+height: 35px;
+width: 90%;
+margin-top: 10px;
+font-weight: bold;
+cursor: pointer;
+border-radius: 4px 4px 4px;
+-moz-border-radius: 4px 4px 4px;
+-o-border-radius: 4px 4px 4px;
+}
+
+.fasttrackracks_button:hover{
+    text-decoration: underline;
+}
