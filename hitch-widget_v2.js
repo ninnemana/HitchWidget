@@ -974,6 +974,7 @@ function loadCheckout(price,title, custPartID, partID){
                     checkoutHTML += '</form>';
             break;
         case 'trailerhitches2go':
+						checkoutHTML += '<span class="price">' + price + '</span>';
             checkoutHTML += '<button type="button" title="Add to Cart" class="button btn-cart" onclick="setLocation(';
             checkoutHTML += "'http://www.trailerhitches2go.com/mag/index.php/checkout/cart/add/uenc/aHR0cDovL3d3dy50cmFpbGVyaGl0Y2hlczJnby5jb20vbWFnL2VsZWN0cmljYWwvdC1jb25uZWN0b3JzLmh0bWw,/product/" + custPartID;
             checkoutHTML += '/\')"><span><span>Add to Cart</span></span>';
